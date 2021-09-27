@@ -1,0 +1,41 @@
+---
+title: "Inline R Practice"
+author: "Your Name"
+date: "9/27/2021"
+output: html_document
+---
+
+```{r label = "setup", include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = NA, warning = FALSE, message = FALSE)
+hs <- seq(from = 80, to = 93, length = 400) + rnorm(400, 0, 0.1)
+urb = rep(c("high", "low"), length = 400)
+income <- -115000 + 2000*hs - 7000*rep(c(0, 1), length = 400) + rnorm(400, 0, 7000)
+hate_crimes <- data.frame(income = income, hs = hs, urb = urb)
+rm("hs", "urb", "income")
+hate_crimes
+```
+
+```{r}
+library(tidyverse)
+library(moderndive)
+ggplot(data = hate_crimes, aes(x = hs, y = income, color = urb)) + 
+  geom_point() + 
+  labs(x = "Percent of adults with a high school degree",
+       y = "Median household income in USD $") +
+  geom_parallel_slopes(se = FALSE) + 
+  theme_bw()
+```
+
+```{r}
+mod <- lm(income ~ hs + urb, data = hate_crimes)
+summary(mod)
+```
+* Report and interpret the slope of the regression equation.
+
+
+
+* Report and interpret the y-intercept for low urbanization.
+
+
+
+* Report and interpret the y-intercept for high urbanization.
